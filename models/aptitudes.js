@@ -1,14 +1,12 @@
-const connection = require('../config/db');
+const pool = require('../config/db');
 
-const getALLAptitudes = (result) => {
-  connection.query("select * from aptitudes", (error,results)=>{
-    if(error){
-      console.log(error);
-      result(error,null);
-    } else{
-      result (null,results);
+const getALLAptitudes = (callback) => {
+  pool.query('SELECT * FROM aptitudes', (error, results) => {
+    if (error) {
+      return callback(error, null);
     }
+      return callback(null, results);
   });
 }
-  
-module.exports = getALLAptitudes;
+
+module.exports = {getALLAptitudes};

@@ -1,4 +1,4 @@
-const getALLMaestros = require('../models/maestros')
+const {getALLMaestros,addMaestro,updateMaestro,deleteMaestro} = require('../models/maestros')
 
 const getMaestrosDB = (req,res) => {
     getALLMaestros((error,results)=>{
@@ -11,4 +11,17 @@ const getMaestrosDB = (req,res) => {
     });
 }
 
-module.exports = getMaestrosDB;
+const crearMaestro = (req,res) => {
+    addMaestro(req,res);
+};
+
+const eliminarMaestro = (req, res) => {
+    deleteMaestro(req,res);
+};
+
+const actualizarMaestro = (req, res) => {
+    updateMaestro(req,res);
+};
+
+
+module.exports = {getMaestrosDB,crearMaestro,eliminarMaestro,actualizarMaestro};

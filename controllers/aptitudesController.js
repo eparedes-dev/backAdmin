@@ -1,4 +1,4 @@
-const getALLAptitudes = require('../models/aptitudes')
+const {getALLAptitudes} = require('../models/aptitudes')
 
 const getAptitudesDB = (req,res) => {
     getALLAptitudes((error,results)=>{
@@ -11,4 +11,6 @@ const getAptitudesDB = (req,res) => {
     });
 }
 
-module.exports = getAptitudesDB;
+
+
+module.exports = {getAptitudesDB};

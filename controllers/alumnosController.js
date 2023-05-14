@@ -1,4 +1,4 @@
-const getALLAlumnos = require('../models/alumnos')
+const {getALLAlumnos,addAlumno,updateAlumno,deleteAlumno} = require('../models/alumnos')
 
 const getAlumnosDB = (req,res) => {
     getALLAlumnos((error,results)=>{
@@ -9,6 +9,21 @@ const getAlumnosDB = (req,res) => {
             res.json(results);
         }
     });
-}
+} 
+  
+const crearAlumno = (req,res) => {
+    addAlumno(req,res);
+};
 
-module.exports = getAlumnosDB;
+const eliminarAlumno = (req, res) => {
+    deleteAlumno(req,res);
+};
+
+const actualizarAlumno = (req, res) => {
+    updateAlumno(req,res);
+};
+
+
+
+
+module.exports = {getAlumnosDB,crearAlumno,eliminarAlumno,actualizarAlumno};

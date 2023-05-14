@@ -1,14 +1,13 @@
-const getALLActitudes = require('../models/actitudes')
+const pool = require('../config/db');
 
-const getActitudesDB = (req,res) => {
-    getALLActitudes((error,results)=>{
-        if(error){
-            res.send(error);
-            console.log(error)
-        } else{
-            res.json(results);
-        }
-    });
-}
-
+  const getActitudesDB = async (req, res) => {
+    try {
+      const [listAct] = await pool.promise().query('select * from actitudes');
+      res.json(listAct);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error al obtener las actitudes.' });
+    }
+  };
+  
 module.exports = getActitudesDB;

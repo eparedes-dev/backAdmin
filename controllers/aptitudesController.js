@@ -1,16 +1,14 @@
-const {getALLAptitudes} = require('../models/aptitudes')
+const pool = require('../config/db');
 
-const getAptitudesDB = (req,res) => {
-    getALLAptitudes((error,results)=>{
-        if(error){
-            res.send(error);
-            console.log(error)
-        } else{
-            res.json(results);
-        }
-    });
-}
-
+const getAptitudesDB = async (req, res) => {
+    try {
+      const [listApt] = await pool.promise().query('select * from aptitudes');
+      res.json(listApt);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error al obtener las aptitudes.' });
+    }
+  };
 
 
 module.exports = {getAptitudesDB};

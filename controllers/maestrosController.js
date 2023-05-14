@@ -1,26 +1,48 @@
-const {getALLMaestros,addMaestro,updateMaestro,deleteMaestro} = require('../models/maestros')
+const pool = require('../config/db');
 
-const getMaestrosDB = (req,res) => {
-    getALLMaestros((error,results)=>{
-        if(error){
-            res.send(error);
-            console.log(error)
-        } else{
-            res.json(results);
-        }
-    });
-}
+const getMaestrosDB = async (req, res) => {
+    try {
+      const [listAct] = await pool.promise().query(`
+      SELECT ma.idmaestro, ma.nombre, m.tema AS materia, apt.apt AS aptitud
+      FROM maestro ma
+      JOIN materia m ON ma.idmateria = m.idmateria
+      JOIN aptitudes apt ON ma.idaptitud = apt.idaptitud;
+      `);
+      res.json(listAct);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error al obtener los Maestros.' });
+    }
+  };
 
-const crearMaestro = (req,res) => {
-    addMaestro(req,res);
+const crearMaestro = async (req,res) => {
+    try {
+        await pool.promise().query('insert into maestro set ?', [req.body]);
+        res.json({ message: 'Maestro insertado' });
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Error al insertar el Maestro'});
+      }
 };
 
-const eliminarMaestro = (req, res) => {
-    deleteMaestro(req,res);
+const eliminarMaestro = async (req, res) => {
+    try{
+        await pool.promise().query('delete from maestro where idmaestro = ?',req.params.id);
+        res.json({ message: 'Maestro Eliminado' });
+      }catch(error){
+        console.error(error);
+        res.status(500).json({error:'Error al eliminar el Maestro'});
+      }
 };
 
-const actualizarMaestro = (req, res) => {
-    updateMaestro(req,res);
+const actualizarMaestro = async (req, res) => {
+    try{
+        await pool.promise().query('UPDATE maestro SET ? WHERE idmaestro = ?',[req.body, req.params.id]);
+        res.json({message: 'Maestro Actualizado'});
+      }catch(error){
+        console.error(error);
+        res.status(500).json({error:'Error al actualizar el Maestro'});
+      }
 };
 
 

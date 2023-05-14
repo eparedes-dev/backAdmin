@@ -1,14 +1,13 @@
-const getALLMaterias = require('../models/materia')
+const pool = require('../config/db');
 
-const getMateriasDB = (req,res) => {
-    getALLMaterias((error,results)=>{
-        if(error){
-            res.send(error);
-            console.log(error)
-        } else{
-            res.json(results);
-        }
-    });
-}
+const getMateriasDB = async (req, res) => {
+    try {
+      const [listApt] = await pool.promise().query('select * from materia');
+      res.json(listApt);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error al obtener las materias.' });
+    }
+  };
 
 module.exports = getMateriasDB;

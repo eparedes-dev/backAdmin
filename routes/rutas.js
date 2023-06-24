@@ -1,26 +1,21 @@
-const {getAptitudesDB} = require('../controllers/aptitudesController.js')
-const getActitudesDB = require('../controllers/actitudesController.js');
-const getMateriasDB = require('../controllers/materiasController.js');
-const {getMaestrosDB,crearMaestro,actualizarMaestro,eliminarMaestro} = require('../controllers/maestrosController.js');
-const {getAlumnosDB,crearAlumno,eliminarAlumno,actualizarAlumno} = require('../controllers/alumnosController.js');
-const getCursosDB = require('../controllers/cursosController.js');
-const express = require('express')
-
+const express = require('express');
+const {getAllAlumnos, getAscAlumnos} =  require('../Controllers/alumnosControllers');
+const {getAllMaestros,getDesMaestros} = require('../Controllers/maestrosControllers');
+const getAllCualidades = require('../Controllers/cualidadesControllers');
+const {getAllCursos, crearCursos, getbestCursos} = require('../Controllers/cursosControllers');
+const getAllCualidadesMaestros = require('../Controllers/cualidadesMaestrosControllers');
+const getAllCualidadesAlumnos = require('../Controllers/cualidadesAlumnosControllers');
+const getAllInscripciones = require('../Controllers/inscripcionesControllers');
 const router = express.Router();
 
-router.get('/aptitudes',getAptitudesDB);
-router.get('/actitudes',getActitudesDB);
-router.get('/materias',getMateriasDB);
-router.get('/cursos',getCursosDB);
-
-router.get('/maestros',getMaestrosDB);
-router.post('/maestros',crearMaestro);
-router.delete('/maestros/:id',eliminarMaestro);
-router.put('/maestros/:id',actualizarMaestro);
-
-router.get('/alumnos',getAlumnosDB);
-router.post('/alumnos',crearAlumno);
-router.delete('/alumnos/:id',eliminarAlumno);
-router.put('/alumnos/:id',actualizarAlumno);
+router.get('/alumnos',getAllAlumnos);
+router.get('/maestros',getAllMaestros);
+router.get('/cualidades',getAllCualidades);
+router.get('/cursos',getAllCursos);
+router.get('/cualidadesMaestros',getAllCualidadesMaestros);
+router.get('/cualidadesAlumnos',getAllCualidadesAlumnos);
+router.get('/inscripciones',getAllInscripciones);
+router.post('/crearcursos', crearCursos);
+router.get('/podio', getbestCursos);
 
 module.exports = router;
